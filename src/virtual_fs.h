@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 class VirtualFs
 {
@@ -17,22 +16,10 @@ public:
     void Stop();
 
 private:
-    struct Node
-    {
-        std::wstring path;      // full path: "\" or "\hello.txt"
-        std::wstring name;      // display name
-        bool isDirectory = false;
-        std::vector<std::uint8_t> data;
-        FILETIME creationTime{};
-        FILETIME lastAccessTime{};
-        FILETIME lastWriteTime{};
-        FILETIME changeTime{};
-        UINT32 attributes = 0;
-    };
-
     struct FileContext
     {
-        Node* node = nullptr;
+        std::wstring realPath;
+        bool isDirectory = false;
     };
 
     static NTSTATUS GetVolumeInfo(
@@ -81,19 +68,20 @@ private:
         PULONG PBytesTransferred);
 
     static VirtualFs* Self(FSP_FILE_SYSTEM* fs);
-    Node* FindNode(const std::wstring& path);
-    const Node* FindNode(const std::wstring& path) const;
-    static void FillFileInfo(const Node& node, FSP_FSCTL_FILE_INFO* fileInfo);
 
-    static std::wstring NormalizePath(const std::wstring& path);
+    std::wstring VirtualToRealPath(const std::wstring& virtualPath) const;
+
+    static bool GetRealFileInfo(
+        const std::wstring& realPath,
+        FSP_FSCTL_FILE_INFO* fileInfo,
+        bool* isDirectory);
 
 private:
     FSP_FILE_SYSTEM* fs_ = nullptr;
     std::wstring mountPoint_;
 
+    std::wstring basePath_ = L"F:\\DriveMountData";
+
     std::unique_ptr<std::byte[]> securityDescriptorStorage_;
     SIZE_T securityDescriptorSize_ = 0;
-
-    Node root_;
-    Node hello_;
 };

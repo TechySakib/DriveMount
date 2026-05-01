@@ -7,63 +7,44 @@
 #include <memory>
 #include <string>
 
-namespace
-{
-    VirtualFs* g_fs = nullptr;
-
-    BOOL WINAPI ConsoleCtrlHandler(DWORD ctrlType)
-    {
-        switch (ctrlType)
-        {
-        case CTRL_C_EVENT:
-        case CTRL_BREAK_EVENT:
-        case CTRL_CLOSE_EVENT:
-        case CTRL_SHUTDOWN_EVENT:
-            if (g_fs)
-                g_fs->Stop();
-            return TRUE;
-        default:
-            return FALSE;
-        }
-    }
-}
-
 int wmain(int argc, wchar_t** argv)
 {
-    if (!NT_SUCCESS(FspLoad(0)))
+    std::wcout << L"DriveMount starting...\n";
+
+    NTSTATUS loadStatus = FspLoad(0);
+    if (!NT_SUCCESS(loadStatus))
     {
-        std::wcerr << L"Failed to load WinFsp runtime.\n";
-        return ERROR_DELAY_LOAD_FAILED;
+        std::wcerr << L"FspLoad failed: 0x" << std::hex << loadStatus << L"\n";
+        return 1;
     }
 
-    std::wstring mountPoint = L"G:";
+    std::wstring mountPoint = L"X:";
     if (argc >= 2)
         mountPoint = argv[1];
 
-    auto fs = std::make_unique<VirtualFs>();
-    g_fs = fs.get();
+    std::wcout << L"Requested mount point: [" << mountPoint << L"]\n";
 
-    if (!SetConsoleCtrlHandler(ConsoleCtrlHandler, TRUE))
-    {
-        std::wcerr << L"Failed to install console control handler.\n";
-        return 1;
-    }
+    auto fs = std::make_unique<VirtualFs>();
 
     NTSTATUS status = fs->Start(mountPoint);
     if (!NT_SUCCESS(status))
     {
-        std::wcerr << L"Failed to mount filesystem. NTSTATUS=0x"
-                   << std::hex << static_cast<unsigned long>(status) << L"\n";
+        std::wcerr << L"Start failed: 0x" << std::hex << status << L"\n";
+        std::wcout << L"Press Enter to exit...\n";
+        std::wstring dummy;
+        std::getline(std::wcin, dummy);
         return 1;
     }
 
     std::wcout << L"DriveMount mounted at " << mountPoint << L"\n";
-    std::wcout << L"Open Explorer and browse the drive.\n";
+    std::wcout << L"Keep this window open.\n";
     std::wcout << L"Press Enter to unmount.\n";
-    std::wstring line;
-    std::getline(std::wcin, line);
+
+    std::wstring dummy;
+    std::getline(std::wcin, dummy);
 
     fs->Stop();
-    g_fs = nullptr;
+
+    std::wcout << L"Unmounted.\n";
     return 0;
 }

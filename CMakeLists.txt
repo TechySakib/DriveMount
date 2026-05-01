@@ -14,11 +14,7 @@ add_executable(DriveMount
     src/cache_manager.h
 )
 
-if (NOT DEFINED ENV{ProgramFiles(x86)})
-    message(FATAL_ERROR "ProgramFiles(x86) is not defined. Build on Windows.")
-endif()
-
-set(WINFSP_DIR "$ENV{ProgramFiles(x86)}/WinFsp")
+set(WINFSP_DIR "C:/Program Files (x86)/WinFsp")
 
 target_include_directories(DriveMount PRIVATE
     "${WINFSP_DIR}/inc"

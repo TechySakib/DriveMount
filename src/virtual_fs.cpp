@@ -1,4 +1,4 @@
-#include "virtual_fs.h"
+﻿#include "virtual_fs.h"
 
 #include <windows.h>
 #include <sddl.h>
@@ -30,7 +30,7 @@ VirtualFs::VirtualFs()
     ULONG sdSize = 0;
 
     if (!ConvertStringSecurityDescriptorToSecurityDescriptorW(
-            L"D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;FR;;;WD)",
+            L"O:BAG:BAD:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;FA;;;WD)",
             SDDL_REVISION_1,
             &sd,
             &sdSize))
@@ -83,31 +83,34 @@ bool VirtualFs::GetRealFileInfo(
     if (isDirectory)
         *isDirectory = dir;
 
-    std::memset(fileInfo, 0, sizeof(*fileInfo));
-
-    fileInfo->FileAttributes = data.dwFileAttributes;
-    fileInfo->CreationTime = FileTimeToUInt64(data.ftCreationTime);
-    fileInfo->LastAccessTime = FileTimeToUInt64(data.ftLastAccessTime);
-    fileInfo->LastWriteTime = FileTimeToUInt64(data.ftLastWriteTime);
-    fileInfo->ChangeTime = FileTimeToUInt64(data.ftLastWriteTime);
-
-    ULARGE_INTEGER size{};
-    size.LowPart = data.nFileSizeLow;
-    size.HighPart = data.nFileSizeHigh;
-
-    if (dir)
+    if (fileInfo)
     {
-        fileInfo->FileSize = 0;
-        fileInfo->AllocationSize = 0;
-    }
-    else
-    {
-        fileInfo->FileSize = size.QuadPart;
-        fileInfo->AllocationSize = size.QuadPart;
-    }
+        std::memset(fileInfo, 0, sizeof(*fileInfo));
 
-    fileInfo->IndexNumber = 0;
-    fileInfo->HardLinks = 1;
+        fileInfo->FileAttributes = data.dwFileAttributes;
+        fileInfo->CreationTime = FileTimeToUInt64(data.ftCreationTime);
+        fileInfo->LastAccessTime = FileTimeToUInt64(data.ftLastAccessTime);
+        fileInfo->LastWriteTime = FileTimeToUInt64(data.ftLastWriteTime);
+        fileInfo->ChangeTime = FileTimeToUInt64(data.ftLastWriteTime);
+
+        ULARGE_INTEGER size{};
+        size.LowPart = data.nFileSizeLow;
+        size.HighPart = data.nFileSizeHigh;
+
+        if (dir)
+        {
+            fileInfo->FileSize = 0;
+            fileInfo->AllocationSize = 0;
+        }
+        else
+        {
+            fileInfo->FileSize = size.QuadPart;
+            fileInfo->AllocationSize = size.QuadPart;
+        }
+
+        fileInfo->IndexNumber = 0;
+        fileInfo->HardLinks = 1;
+    }
 
     return true;
 }
@@ -119,9 +122,16 @@ NTSTATUS VirtualFs::Start(const std::wstring& mountPoint)
 
     mountPoint_ = mountPoint;
 
+    if (!CreateDirectoryW(basePath_.c_str(), nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
+    {
+        std::wcout << L"Failed to create base path: " << basePath_ << std::endl;
+        return STATUS_OBJECT_NAME_NOT_FOUND;
+    }
+
     FSP_FSCTL_VOLUME_PARAMS volumeParams{};
     volumeParams.SectorSize = 4096;
     volumeParams.SectorsPerAllocationUnit = 1;
+    volumeParams.MaxComponentLength = 255;
     volumeParams.VolumeSerialNumber = 0x19831116;
     volumeParams.FileInfoTimeout = 1000;
     volumeParams.CaseSensitiveSearch = 0;
@@ -135,9 +145,20 @@ NTSTATUS VirtualFs::Start(const std::wstring& mountPoint)
     iface.GetVolumeInfo = &VirtualFs::GetVolumeInfo;
     iface.GetSecurityByName = &VirtualFs::GetSecurityByName;
     iface.Open = &VirtualFs::Open;
+    iface.Create = &VirtualFs::Create;
+    iface.Overwrite = &VirtualFs::Overwrite;
+    iface.Cleanup = &VirtualFs::Cleanup;
     iface.Close = &VirtualFs::Close;
     iface.GetFileInfo = &VirtualFs::GetFileInfo;
     iface.Read = &VirtualFs::Read;
+    iface.Write = &VirtualFs::Write;
+    iface.Flush = &VirtualFs::Flush;
+    iface.SetBasicInfo = &VirtualFs::SetBasicInfo;
+    iface.SetFileSize = &VirtualFs::SetFileSize;
+    iface.CanDelete = &VirtualFs::CanDelete;
+    iface.Rename = &VirtualFs::Rename;
+    iface.GetSecurity = &VirtualFs::GetSecurity;
+    iface.SetSecurity = &VirtualFs::SetSecurity;
     iface.ReadDirectory = &VirtualFs::ReadDirectory;
 
     wchar_t deviceName[] = L"" FSP_FSCTL_DISK_DEVICE_NAME;
@@ -152,6 +173,8 @@ NTSTATUS VirtualFs::Start(const std::wstring& mountPoint)
         return status;
 
     fs_->UserContext = this;
+
+    FspFileSystemSetDebugLog(fs_, -1);
 
      status = FspFileSystemSetMountPoint(fs_, const_cast<PWSTR>(mountPoint_.c_str()));
     if (!NT_SUCCESS(status))    
@@ -253,8 +276,8 @@ NTSTATUS VirtualFs::Open(
     (void)GrantedAccess;
 
     auto* self = Self(FileSystem);
-
     std::wstring virtualPath = FileName ? FileName : L"\\";
+    std::wcout << L"Open: " << virtualPath << L"" << std::endl;
     std::wstring realPath = self->VirtualToRealPath(virtualPath);
 
     bool isDirectory = false;
@@ -275,6 +298,74 @@ NTSTATUS VirtualFs::Open(
 
     return STATUS_SUCCESS;
 }
+
+NTSTATUS VirtualFs::Create(
+    FSP_FILE_SYSTEM* FileSystem,
+    PWSTR FileName,
+    UINT32 CreateOptions,
+    UINT32 GrantedAccess,
+    UINT32 FileAttributes,
+    PSECURITY_DESCRIPTOR SecurityDescriptor,
+    UINT64 AllocationSize,
+    PVOID* PFileContext,
+    FSP_FSCTL_FILE_INFO* FileInfo)
+{
+    (void)GrantedAccess;
+    (void)AllocationSize;
+    (void)SecurityDescriptor;
+
+    auto* self = Self(FileSystem);
+
+    std::wstring virtualPath = FileName ? FileName : L"\\";
+    std::wstring realPath = self->VirtualToRealPath(virtualPath);
+
+    const bool createDirectory = (CreateOptions & FILE_DIRECTORY_FILE) != 0;
+
+    if (createDirectory)
+    {
+        if (!CreateDirectoryW(realPath.c_str(), nullptr))
+        {
+            DWORD err = GetLastError();
+            if (err == ERROR_ALREADY_EXISTS) return STATUS_OBJECT_NAME_COLLISION;
+            if (err == ERROR_PATH_NOT_FOUND) return STATUS_OBJECT_PATH_NOT_FOUND;
+            return STATUS_ACCESS_DENIED;
+        }
+    }
+    else
+    {
+        HANDLE hFile = CreateFileW(
+            realPath.c_str(),
+            GENERIC_WRITE,
+            0,
+            nullptr,
+            CREATE_NEW,
+            FileAttributes == 0 ? FILE_ATTRIBUTE_NORMAL : FileAttributes,
+            nullptr);
+
+        if (hFile == INVALID_HANDLE_VALUE)
+        {
+            DWORD err = GetLastError();
+            if (err == ERROR_FILE_EXISTS) return STATUS_OBJECT_NAME_COLLISION;
+            if (err == ERROR_PATH_NOT_FOUND) return STATUS_OBJECT_PATH_NOT_FOUND;
+            return STATUS_ACCESS_DENIED;
+        }
+        CloseHandle(hFile);
+    }
+
+    bool isDirectory = false;
+    if (!GetRealFileInfo(realPath, FileInfo, &isDirectory))
+        return STATUS_OBJECT_NAME_NOT_FOUND;
+
+    auto* ctx = new VirtualFs::FileContext{};
+    ctx->realPath = realPath;
+    ctx->isDirectory = isDirectory;
+
+    *PFileContext = ctx;
+
+    return STATUS_SUCCESS;
+}
+
+
 
 VOID VirtualFs::Close(
     FSP_FILE_SYSTEM* FileSystem,
@@ -375,6 +466,7 @@ NTSTATUS VirtualFs::ReadDirectory(
 
     std::wstring dirPath = ctx->realPath.empty() ? self->basePath_ : ctx->realPath;
     std::wstring searchPath = dirPath + L"\\*";
+    bool isRoot = (ctx->realPath.empty() || ctx->realPath == self->basePath_);
 
     WIN32_FIND_DATAW findData{};
     HANDLE hFind = FindFirstFileW(searchPath.c_str(), &findData);
@@ -385,12 +477,20 @@ NTSTATUS VirtualFs::ReadDirectory(
         return STATUS_SUCCESS;
     }
 
+    bool skipUntilMarker = (Marker != nullptr);
+
     do
     {
         const wchar_t* name = findData.cFileName;
 
-        // Skip . and ..
-        if (wcscmp(name, L".") == 0 || wcscmp(name, L"..") == 0)
+        if (skipUntilMarker)
+        {
+            if (wcscmp(name, Marker) == 0)
+                skipUntilMarker = false;
+            continue;
+        }
+
+        if (isRoot && (wcscmp(name, L".") == 0 || wcscmp(name, L"..") == 0))
             continue;
 
         std::wstring fullPath = dirPath + L"\\" + name;
@@ -399,7 +499,18 @@ NTSTATUS VirtualFs::ReadDirectory(
         bool isDir = false;
 
         if (!GetRealFileInfo(fullPath, &fileInfo, &isDir))
-            continue;
+        {
+            // For . and .. GetRealFileInfo will still work, but let's be careful
+            if (wcscmp(name, L".") == 0 || wcscmp(name, L"..") == 0)
+            {
+                std::memset(&fileInfo, 0, sizeof(fileInfo));
+                fileInfo.FileAttributes = FILE_ATTRIBUTE_DIRECTORY;
+            }
+            else
+            {
+                continue;
+            }
+        }
 
         const ULONG nameLen = (ULONG)(wcslen(name) * sizeof(wchar_t));
         const ULONG entrySize = sizeof(FSP_FSCTL_DIR_INFO) + nameLen;
@@ -424,3 +535,229 @@ NTSTATUS VirtualFs::ReadDirectory(
 
     return STATUS_SUCCESS;
 }
+NTSTATUS VirtualFs::Overwrite(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, UINT32 FileAttributes, BOOLEAN ReplaceFileAttributes, UINT64 AllocationSize, FSP_FSCTL_FILE_INFO *FileInfo)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx || ctx->isDirectory)
+        return STATUS_INVALID_DEVICE_REQUEST;
+
+    HANDLE hFile = CreateFileW(
+        ctx->realPath.c_str(),
+        GENERIC_WRITE,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        TRUNCATE_EXISTING,
+        FileAttributes == 0 ? FILE_ATTRIBUTE_NORMAL : FileAttributes,
+        nullptr);
+
+    if (hFile == INVALID_HANDLE_VALUE)
+    {
+        DWORD err = GetLastError();
+        if (err == ERROR_FILE_NOT_FOUND) return STATUS_OBJECT_NAME_NOT_FOUND;
+        return STATUS_ACCESS_DENIED;
+    }
+    CloseHandle(hFile);
+
+    bool isDir = false;
+    GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::Write(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PVOID Buffer, UINT64 Offset, ULONG Length, BOOLEAN WriteToEndOfFile, BOOLEAN ConstrainedIo, PULONG PBytesTransferred, FSP_FSCTL_FILE_INFO *FileInfo)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx || ctx->isDirectory)
+        return STATUS_INVALID_DEVICE_REQUEST;
+
+    HANDLE file = CreateFileW(
+        ctx->realPath.c_str(),
+        GENERIC_WRITE,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+
+    if (file == INVALID_HANDLE_VALUE)
+        return STATUS_OBJECT_NAME_NOT_FOUND;
+
+    LARGE_INTEGER li{};
+    li.QuadPart = static_cast<LONGLONG>(Offset);
+
+    if (WriteToEndOfFile)
+    {
+        SetFilePointerEx(file, {0}, nullptr, FILE_END);
+    }
+    else
+    {
+        SetFilePointerEx(file, li, nullptr, FILE_BEGIN);
+    }
+
+    DWORD bytesWritten = 0;
+    if (!WriteFile(file, Buffer, Length, &bytesWritten, nullptr))
+    {
+        CloseHandle(file);
+        return STATUS_UNSUCCESSFUL;
+    }
+
+    CloseHandle(file);
+
+    *PBytesTransferred = bytesWritten;
+    
+    bool isDir = false;
+    GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::Flush(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, FSP_FSCTL_FILE_INFO *FileInfo)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx) return STATUS_SUCCESS;
+
+    bool isDir = false;
+    GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::SetBasicInfo(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, UINT32 FileAttributes, UINT64 CreationTime, UINT64 LastAccessTime, UINT64 LastWriteTime, UINT64 ChangeTime, FSP_FSCTL_FILE_INFO *FileInfo)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx) return STATUS_INVALID_HANDLE;
+
+    if (FileAttributes != INVALID_FILE_ATTRIBUTES && FileAttributes != 0)
+    {
+        SetFileAttributesW(ctx->realPath.c_str(), FileAttributes);
+    }
+
+    HANDLE file = CreateFileW(
+        ctx->realPath.c_str(),
+        FILE_WRITE_ATTRIBUTES,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        OPEN_EXISTING,
+        ctx->isDirectory ? FILE_FLAG_BACKUP_SEMANTICS : FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+
+    if (file != INVALID_HANDLE_VALUE)
+    {
+        FILETIME ct{}, at{}, wt{};
+        bool setCt = CreationTime != 0;
+        bool setAt = LastAccessTime != 0;
+        bool setWt = LastWriteTime != 0 || ChangeTime != 0;
+
+        if (setCt) {
+            ULARGE_INTEGER li; li.QuadPart = CreationTime;
+            ct.dwLowDateTime = li.LowPart; ct.dwHighDateTime = li.HighPart;
+        }
+        if (setAt) {
+            ULARGE_INTEGER li; li.QuadPart = LastAccessTime;
+            at.dwLowDateTime = li.LowPart; at.dwHighDateTime = li.HighPart;
+        }
+        if (setWt) {
+            ULARGE_INTEGER li; li.QuadPart = ChangeTime != 0 ? ChangeTime : LastWriteTime;
+            wt.dwLowDateTime = li.LowPart; wt.dwHighDateTime = li.HighPart;
+        }
+
+        SetFileTime(file, setCt ? &ct : nullptr, setAt ? &at : nullptr, setWt ? &wt : nullptr);
+        CloseHandle(file);
+    }
+
+    bool isDir = false;
+    GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::SetFileSize(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, UINT64 NewSize, BOOLEAN SetAllocationSize, FSP_FSCTL_FILE_INFO *FileInfo)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx || ctx->isDirectory) return STATUS_INVALID_DEVICE_REQUEST;
+
+    if (!SetAllocationSize)
+    {
+        HANDLE file = CreateFileW(
+            ctx->realPath.c_str(),
+            GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+            nullptr,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            nullptr);
+
+        if (file != INVALID_HANDLE_VALUE)
+        {
+            LARGE_INTEGER li; li.QuadPart = NewSize;
+            SetFilePointerEx(file, li, nullptr, FILE_BEGIN);
+            SetEndOfFile(file);
+            CloseHandle(file);
+        }
+    }
+
+    bool isDir = false;
+    GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::CanDelete(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PWSTR FileName)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx) return STATUS_INVALID_HANDLE;
+
+    DWORD attr = GetFileAttributesW(ctx->realPath.c_str());
+    if (attr == INVALID_FILE_ATTRIBUTES) return STATUS_OBJECT_NAME_NOT_FOUND;
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::Rename(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PWSTR FileName, PWSTR NewFileName, BOOLEAN ReplaceIfExists)
+{
+    auto* self = Self(FileSystem);
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+
+    std::wstring oldPath = ctx->realPath;
+    std::wstring newVirtPath = NewFileName;
+    std::wstring newPath = self->VirtualToRealPath(newVirtPath);
+
+    DWORD flags = ReplaceIfExists ? MOVEFILE_REPLACE_EXISTING : 0;
+    if (!MoveFileExW(oldPath.c_str(), newPath.c_str(), flags))
+    {
+        DWORD err = GetLastError();
+        if (err == ERROR_ALREADY_EXISTS) return STATUS_OBJECT_NAME_COLLISION;
+        return STATUS_ACCESS_DENIED;
+    }
+
+    ctx->realPath = newPath;
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS VirtualFs::GetSecurity(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PSECURITY_DESCRIPTOR SecurityDescriptor, SIZE_T *PSecurityDescriptorSize) { return STATUS_ACCESS_DENIED; }
+NTSTATUS VirtualFs::SetSecurity(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, SECURITY_INFORMATION SecurityInformation, PSECURITY_DESCRIPTOR ModificationDescriptor) { return STATUS_ACCESS_DENIED; }
+
+VOID VirtualFs::Cleanup(
+    FSP_FILE_SYSTEM* FileSystem,
+    PVOID FileContext,
+    PWSTR FileName,
+    ULONG Flags)
+{
+    auto* ctx = static_cast<VirtualFs::FileContext*>(FileContext);
+    if (!ctx) return;
+
+    if (Flags & FspCleanupDelete)
+    {
+        if (ctx->isDirectory)
+        {
+            RemoveDirectoryW(ctx->realPath.c_str());
+        }
+        else
+        {
+            DeleteFileW(ctx->realPath.c_str());
+        }
+    }
+}
+
+
+
+
+

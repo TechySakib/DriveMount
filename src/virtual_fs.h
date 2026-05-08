@@ -4,6 +4,7 @@
 #include <winfsp/winfsp.h>
 
 #include <memory>
+#include "cache_manager.h"
 #include <string>
 
 class VirtualFs
@@ -19,6 +20,7 @@ private:
     struct FileContext
     {
         std::wstring realPath;
+        std::wstring virtualPath;
         bool isDirectory = false;
     };
 
@@ -108,7 +110,11 @@ private:
     std::wstring mountPoint_;
 
     std::wstring basePath_ = L"F:\\DriveMountData";
+    std::unique_ptr<CacheManager> cacheManager_;
 
     std::unique_ptr<std::byte[]> securityDescriptorStorage_;
     SIZE_T securityDescriptorSize_ = 0;
 };
+
+
+

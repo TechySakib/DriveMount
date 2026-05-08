@@ -1,4 +1,4 @@
-﻿#include "virtual_fs.h"
+#include "virtual_fs.h"
 
 #include <windows.h>
 #include <sddl.h>
@@ -122,6 +122,9 @@ NTSTATUS VirtualFs::Start(const std::wstring& mountPoint)
 
     mountPoint_ = mountPoint;
 
+    cacheManager_ = std::make_unique<CacheManager>(basePath_);
+    cacheManager_->Start();
+
     if (!CreateDirectoryW(basePath_.c_str(), nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
     {
         std::wcout << L"Failed to create base path: " << basePath_ << std::endl;
@@ -199,6 +202,7 @@ NTSTATUS VirtualFs::Start(const std::wstring& mountPoint)
 
 void VirtualFs::Stop()
 {
+    if (cacheManager_) cacheManager_->Stop();
     if (!fs_)
         return;
 
@@ -292,6 +296,7 @@ NTSTATUS VirtualFs::Open(
 
     auto* ctx = new VirtualFs::FileContext{};
     ctx->realPath = realPath;
+    ctx->virtualPath = virtualPath;
     ctx->isDirectory = isDirectory;
 
     *PFileContext = ctx;
@@ -358,6 +363,7 @@ NTSTATUS VirtualFs::Create(
 
     auto* ctx = new VirtualFs::FileContext{};
     ctx->realPath = realPath;
+    ctx->virtualPath = virtualPath;
     ctx->isDirectory = isDirectory;
 
     *PFileContext = ctx;
@@ -561,6 +567,13 @@ NTSTATUS VirtualFs::Overwrite(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, UI
     bool isDir = false;
     GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
 
+    auto* self = Self(FileSystem);
+    if (!ctx->virtualPath.empty() && ctx->virtualPath != L"\\") {
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        if (self->cacheManager_) self->cacheManager_->QueueUpload(ctx->realPath, remoteName);
+    }
+
     return STATUS_SUCCESS;
 }
 
@@ -608,6 +621,13 @@ NTSTATUS VirtualFs::Write(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PVOID 
     bool isDir = false;
     GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
 
+    auto* self = Self(FileSystem);
+    if (!ctx->virtualPath.empty() && ctx->virtualPath != L"\\") {
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        if (self->cacheManager_) self->cacheManager_->QueueUpload(ctx->realPath, remoteName);
+    }
+
     return STATUS_SUCCESS;
 }
 
@@ -618,6 +638,13 @@ NTSTATUS VirtualFs::Flush(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, FSP_FS
 
     bool isDir = false;
     GetRealFileInfo(ctx->realPath, FileInfo, &isDir);
+
+    auto* self = Self(FileSystem);
+    if (!ctx->virtualPath.empty() && ctx->virtualPath != L"\\") {
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        if (self->cacheManager_) self->cacheManager_->QueueUpload(ctx->realPath, remoteName);
+    }
 
     return STATUS_SUCCESS;
 }
@@ -729,6 +756,14 @@ NTSTATUS VirtualFs::Rename(FSP_FILE_SYSTEM *FileSystem, PVOID FileContext, PWSTR
     }
 
     ctx->realPath = newPath;
+    std::wstring remoteOld = ctx->virtualPath;
+    if (!remoteOld.empty() && remoteOld.front() == L'\\') remoteOld.erase(0, 1);
+    ctx->virtualPath = newVirtPath;
+    
+    std::wstring remoteNew = newVirtPath;
+    if (!remoteNew.empty() && remoteNew.front() == L'\\') remoteNew.erase(0, 1);
+    if (self->cacheManager_) self->cacheManager_->QueueRename(remoteOld, remoteNew);
+
     return STATUS_SUCCESS;
 }
 
@@ -754,8 +789,19 @@ VOID VirtualFs::Cleanup(
         {
             DeleteFileW(ctx->realPath.c_str());
         }
+
+        auto* self = Self(FileSystem);
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        if (!remoteName.empty() && self->cacheManager_) self->cacheManager_->QueueDelete(remoteName);
     }
 }
+
+
+
+
+
+
 
 
 

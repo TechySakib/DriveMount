@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"F:/New folder/build/cmake_install.cmake"
+		"F:/DriveMount/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

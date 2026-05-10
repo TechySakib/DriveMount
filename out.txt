@@ -1,0 +1,20 @@
+DriveMount starting...
+Requested mount point: [M:]
+[MockDrive] Authenticating...
+[MockDrive] Authentication successful!
+[CacheManager] Performing initial sync...
+[CacheManager] Initial sync complete.
+DriveMount mounted at M:
+Keep this window open.
+Press Enter to unmount.
+Open: \
+Open: \new_sync_file.txt
+[MockDrive] Uploading new_sync_file.txt...
+Open: \
+Open: \new_sync_file.txt
+Open: \
+Open: \new_sync_file.txt
+Open: \new_sync_file.txt
+Open: \
+Open: \new_sync_file.txt
+Open: \

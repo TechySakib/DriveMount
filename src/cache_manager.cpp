@@ -1,4 +1,4 @@
-﻿#include "cache_manager.h"
+#include "cache_manager.h"
 #include <iostream>
 #include <windows.h>
 #include <fstream>
@@ -57,13 +57,39 @@ void CacheManager::InitialSync() {
     for (const auto& file : remoteFiles) {
         std::wstring fullPath = basePath_ + L"\\" + file.name;
         if (GetFileAttributesW(fullPath.c_str()) == INVALID_FILE_ATTRIBUTES) {
-            std::wcout << L"[CacheManager] Syncing " << file.name << L" to local..." << std::endl;
-            std::ofstream out(fullPath, std::ios::binary);
-            out << "Mock cloud file content";
-            out.close();
+            std::wcout << L"[CacheManager] Creating offline placeholder for " << file.name << L"..." << std::endl;
+            
+            HANDLE hFile = CreateFileW(fullPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_OFFLINE, NULL);
+            if (hFile != INVALID_HANDLE_VALUE) {
+                // Make sparse and set size
+                DWORD dwTemp;
+                DeviceIoControl(hFile, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &dwTemp, NULL);
+                
+                LARGE_INTEGER liSize;
+                liSize.QuadPart = file.size;
+                SetFilePointerEx(hFile, liSize, NULL, FILE_BEGIN);
+                SetEndOfFile(hFile);
+                
+                CloseHandle(hFile);
+            }
         }
     }
     std::wcout << L"[CacheManager] Initial sync complete." << std::endl;
+}
+
+void CacheManager::DownloadFileSync(const std::wstring& remoteName, const std::wstring& localPath) {
+    DWORD attrs = GetFileAttributesW(localPath.c_str());
+    if (attrs != INVALID_FILE_ATTRIBUTES && (attrs & FILE_ATTRIBUTE_OFFLINE)) {
+        std::wcout << L"[CacheManager] Downloading on-demand: " << remoteName << L"..." << std::endl;
+        
+        // Remove offline attribute and empty the file for download
+        SetFileAttributesW(localPath.c_str(), FILE_ATTRIBUTE_NORMAL);
+        
+        std::wstring fileId = driveClient_.GetFileIdByName(remoteName);
+        if(!fileId.empty()) {
+            driveClient_.DownloadFile(fileId, localPath);
+        }
+    }
 }
 
 void CacheManager::SyncThreadFunc() {

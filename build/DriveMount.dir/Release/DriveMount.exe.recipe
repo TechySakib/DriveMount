@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>F:\New folder\build\x64\Release\ZERO_CHECK</FullPath>
+      <FullPath>F:\DriveMount\build\x64\Release\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>F:\New folder\build\Release\DriveMount.exe</FullPath>
+      <FullPath>F:\DriveMount\build\Release\DriveMount.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

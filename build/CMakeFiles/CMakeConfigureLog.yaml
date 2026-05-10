@@ -35,17 +35,6 @@ events:
     found: "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -80,18 +69,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
-      ENV{INCLUDE}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\include"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Auxiliary\\VS\\include"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.26100.0\\ucrt"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\um"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\shared"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\winrt"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\cppwinrt"
   -
     kind: "message-v1"
     backtrace:
@@ -108,9 +85,9 @@ events:
       The output was:
       0
       MSBuild version 18.5.4+cb4e32d21 for .NET Framework
-      Build started 5/1/2026 10:12:54 PM.
+      Build started 5/10/2026 11:29:31 PM.
       
-      Project "F:\\New folder\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      Project "F:\\DriveMount\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
         Creating directory "Debug\\".
         Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
@@ -123,7 +100,7 @@ events:
         CMakeCXXCompilerId.cpp
       Link:
         C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
-        CompilerIdCXX.vcxproj -> F:\\New folder\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.exe
+        CompilerIdCXX.vcxproj -> F:\\DriveMount\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.exe
       PostBuildEvent:
         for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
         :VCEnd
@@ -131,13 +108,13 @@ events:
       FinalizeBuildStatus:
         Deleting file "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
         Touching "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
-      Done Building Project "F:\\New folder\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
+      Done Building Project "F:\\DriveMount\\build\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
       
       Build succeeded.
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.90
+      Time Elapsed 00:00:00.89
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -145,7 +122,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
       
       The CXX compiler identification is MSVC, found in:
-        F:/New folder/build/CMakeFiles/4.3.1/CompilerIdCXX/CompilerIdCXX.exe
+        F:/DriveMount/build/CMakeFiles/4.3.1/CompilerIdCXX/CompilerIdCXX.exe
       
   -
     kind: "find-v1"
@@ -170,17 +147,6 @@ events:
       - "link"
     candidate_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -209,26 +175,11 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
     searched_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.com"
     found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.exe"
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -263,10 +214,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
   -
     kind: "find-v1"
     backtrace:
@@ -290,17 +237,6 @@ events:
       - "lld-link"
     candidate_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -329,47 +265,10 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
     searched_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.com"
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.exe"
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/lld-link"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/lld-link.com"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/lld-link.exe"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/lld-link"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/lld-link.com"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/lld-link.exe"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/lld-link"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/lld-link.com"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/lld-link.exe"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/lld-link"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
@@ -454,32 +353,9 @@ events:
       - "C:/Users/Admin/AppData/Roaming/npm/lld-link.com"
       - "C:/Users/Admin/AppData/Roaming/npm/lld-link.exe"
       - "C:/Users/Admin/AppData/Roaming/npm/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/lld-link"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/lld-link.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/lld-link.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/lld-link"
     found: false
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -514,10 +390,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
   -
     kind: "find-v1"
     backtrace:
@@ -539,17 +411,6 @@ events:
       - "link"
     candidate_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -578,26 +439,11 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
     searched_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.com"
     found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.exe"
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -632,10 +478,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
   -
     kind: "find-v1"
     backtrace:
@@ -657,17 +499,6 @@ events:
       - "mt"
     candidate_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -696,44 +527,97 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
     searched_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt.com"
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt.exe"
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/mt.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/mt.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/mt"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/mt.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/mt.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/mt"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/mt.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/mt.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/mt"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/mt.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/mt.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/mt"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/mt.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/mt.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/mt"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/mt.com"
-    found: "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/mt.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/mt.com"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/mt.exe"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/mt.com"
+      - "C:/mt.exe"
+      - "C:/mt"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/mt.com"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/mt.exe"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Program Files/Git/mingw64/bin/mt.com"
+      - "C:/Program Files/Git/mingw64/bin/mt.exe"
+      - "C:/Program Files/Git/mingw64/bin/mt"
+      - "C:/Program Files/Git/usr/bin/mt.com"
+      - "C:/Program Files/Git/usr/bin/mt.exe"
+      - "C:/Program Files/Git/usr/bin/mt"
+      - "C:/Program Files/nodejs/mt.com"
+      - "C:/Program Files/nodejs/mt.exe"
+      - "C:/Program Files/nodejs/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/mt"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/mt.com"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/mt.exe"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/mt"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/mt"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/mt.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/mt.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/mt"
+      - "C:/Users/Admin/AppData/Roaming/npm/mt.com"
+      - "C:/Users/Admin/AppData/Roaming/npm/mt.exe"
+      - "C:/Users/Admin/AppData/Roaming/npm/mt"
+    found: false
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -768,10 +652,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
   -
     kind: "find-v1"
     backtrace:
@@ -793,17 +673,6 @@ events:
       - "lib"
     candidate_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -832,26 +701,11 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
     searched_directories:
       - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lib.com"
     found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lib.exe"
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -886,10 +740,6 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
   -
     kind: "find-v1"
     backtrace:
@@ -913,17 +763,6 @@ events:
     names:
       - "rc"
     candidate_directories:
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/x86/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/"
-      - "C:/Windows/Microsoft.NET/Framework/v4.0.30319/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/Tools/"
       - "C:/Program Files/Common Files/Oracle/Java/javapath/"
       - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
       - "C:/Program Files/Razer/ChromaBroadcast/bin/"
@@ -952,10 +791,6 @@ events:
       - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/"
       - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/"
       - "C:/Users/Admin/AppData/Roaming/npm/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/Linux/bin/ConnectionManagerExe/"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/"
       - "C:/Program Files/bin/"
       - "C:/Program Files/sbin/"
       - "C:/Program Files/"
@@ -965,40 +800,133 @@ events:
       - "C:/Program Files/CMake/bin/"
       - "C:/Program Files/CMake/sbin/"
       - "C:/Program Files/CMake/"
-      - "C:/Program Files/DriveMount/bin/"
-      - "C:/Program Files/DriveMount/sbin/"
-      - "C:/Program Files/DriveMount/"
+      - "C:/Program Files (x86)/DriveMount/bin/"
+      - "C:/Program Files (x86)/DriveMount/sbin/"
+      - "C:/Program Files (x86)/DriveMount/"
     searched_directories:
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/rc.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/rc.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx86/x86/rc"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/rc.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/rc.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/VC/vcpackages/rc"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/rc.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/rc.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow/rc"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/rc.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/rc.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/Roslyn/rc"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/rc.com"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/rc.exe"
-      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console/rc"
-      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/rc.com"
-    found: "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86/rc.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files/dotnet/rc.com"
+      - "C:/Program Files/dotnet/rc.exe"
+      - "C:/Program Files/dotnet/rc"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Windows/System32/config/systemprofile/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/rc.com"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/rc.exe"
+      - "C:/Program Files/MySQL/MySQL Server 8.0/bin/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/rc.com"
+      - "C:/rc.exe"
+      - "C:/rc"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/rc.com"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/rc.exe"
+      - "C:/Program Files/Cloudflare/Cloudflare WARP/rc"
+      - "C:/Program Files/Git/cmd/rc.com"
+      - "C:/Program Files/Git/cmd/rc.exe"
+      - "C:/Program Files/Git/cmd/rc"
+      - "C:/Program Files/Git/mingw64/bin/rc.com"
+      - "C:/Program Files/Git/mingw64/bin/rc.exe"
+      - "C:/Program Files/Git/mingw64/bin/rc"
+      - "C:/Program Files/Git/usr/bin/rc.com"
+      - "C:/Program Files/Git/usr/bin/rc.exe"
+      - "C:/Program Files/Git/usr/bin/rc"
+      - "C:/Program Files/nodejs/rc.com"
+      - "C:/Program Files/nodejs/rc.exe"
+      - "C:/Program Files/nodejs/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Trae/bin/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/Scripts/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Python313/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Python/Launcher/rc"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/rc.com"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/rc.exe"
+      - "C:/Program Files/MySQL/MySQL Shell 8.0/bin/rc"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin/rc"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/rc.com"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/rc.exe"
+      - "C:/Users/Admin/AppData/Local/Programs/Antigravity/bin/rc"
+      - "C:/Users/Admin/AppData/Roaming/npm/rc.com"
+      - "C:/Users/Admin/AppData/Roaming/npm/rc.exe"
+      - "C:/Users/Admin/AppData/Roaming/npm/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Program Files (x86)/DriveMount/bin/rc.com"
+      - "C:/Program Files (x86)/DriveMount/bin/rc.exe"
+      - "C:/Program Files (x86)/DriveMount/bin/rc"
+      - "C:/Program Files (x86)/DriveMount/sbin/rc.com"
+      - "C:/Program Files (x86)/DriveMount/sbin/rc.exe"
+      - "C:/Program Files (x86)/DriveMount/sbin/rc"
+      - "C:/Program Files (x86)/DriveMount/rc.com"
+      - "C:/Program Files (x86)/DriveMount/rc.exe"
+      - "C:/Program Files (x86)/DriveMount/rc"
+    found: false
     search_context:
       ENV{PATH}:
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX86\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\bin\\Roslyn"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x86"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x86"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\\\MSBuild\\Current\\Bin\\amd64"
-        - "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\"
         - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
         - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
         - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
@@ -1033,16 +961,12 @@ events:
         - "C:\\Users\\Admin\\AppData\\Local\\Programs\\Antigravity\\bin"
         - "C:\\Users\\Admin\\AppData\\Roaming\\npm"
         - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe"
-        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\vcpkg"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files/DriveMount"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/DriveMount"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
-        - "C:/Program Files/DriveMount"
+        - "C:/Program Files (x86)/DriveMount"
   -
     kind: "try_compile-v1"
     backtrace:
@@ -1052,8 +976,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "F:/New folder/build/CMakeFiles/CMakeScratch/TryCompile-1lbv1c"
-      binary: "F:/New folder/build/CMakeFiles/CMakeScratch/TryCompile-1lbv1c"
+      source: "F:/DriveMount/build/CMakeFiles/CMakeScratch/TryCompile-2vvg1p"
+      binary: "F:/DriveMount/build/CMakeFiles/CMakeScratch/TryCompile-2vvg1p"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1064,39 +988,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'F:/New folder/build/CMakeFiles/CMakeScratch/TryCompile-1lbv1c'
+        Change Dir: 'F:/DriveMount/build/CMakeFiles/CMakeScratch/TryCompile-2vvg1p'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_ff595.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_9c30b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         MSBuild version 18.5.4+cb4e32d21 for .NET Framework
-        Build started 5/1/2026 10:12:55 PM.
+        Build started 5/10/2026 11:29:32 PM.
         
-        Project "F:\\New folder\\build\\CMakeFiles\\CMakeScratch\\TryCompile-1lbv1c\\cmTC_ff595.vcxproj" on node 1 (default targets).
+        Project "F:\\DriveMount\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2vvg1p\\cmTC_9c30b.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "F:\\New folder\\build\\CMakeFiles\\CMakeScratch\\TryCompile-1lbv1c\\Debug\\".
-          Creating directory "cmTC_ff595.dir\\Debug\\cmTC_ff595.tlog\\".
+          Creating directory "F:\\DriveMount\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2vvg1p\\Debug\\".
+          Creating directory "cmTC_9c30b.dir\\Debug\\cmTC_9c30b.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_ff595.dir\\Debug\\cmTC_ff595.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_ff595.dir\\Debug\\cmTC_ff595.tlog\\unsuccessfulbuild".
+          Creating "cmTC_9c30b.dir\\Debug\\cmTC_9c30b.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_9c30b.dir\\Debug\\cmTC_9c30b.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_ff595.dir\\Debug\\\\" /Fd"cmTC_ff595.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_9c30b.dir\\Debug\\\\" /Fd"cmTC_9c30b.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35729 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_ff595.dir\\Debug\\\\" /Fd"cmTC_ff595.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_9c30b.dir\\Debug\\\\" /Fd"cmTC_9c30b.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"F:\\New folder\\build\\CMakeFiles\\CMakeScratch\\TryCompile-1lbv1c\\Debug\\cmTC_ff595.exe" /INCREMENTAL /ILK:"cmTC_ff595.dir\\Debug\\cmTC_ff595.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:/New folder/build/CMakeFiles/CMakeScratch/TryCompile-1lbv1c/Debug/cmTC_ff595.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"F:/New folder/build/CMakeFiles/CMakeScratch/TryCompile-1lbv1c/Debug/cmTC_ff595.lib" /MACHINE:X64  /machine:x64 cmTC_ff595.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_ff595.vcxproj -> F:\\New folder\\build\\CMakeFiles\\CMakeScratch\\TryCompile-1lbv1c\\Debug\\cmTC_ff595.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"F:\\DriveMount\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2vvg1p\\Debug\\cmTC_9c30b.exe" /INCREMENTAL /ILK:"cmTC_9c30b.dir\\Debug\\cmTC_9c30b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:/DriveMount/build/CMakeFiles/CMakeScratch/TryCompile-2vvg1p/Debug/cmTC_9c30b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"F:/DriveMount/build/CMakeFiles/CMakeScratch/TryCompile-2vvg1p/Debug/cmTC_9c30b.lib" /MACHINE:X64  /machine:x64 cmTC_9c30b.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_9c30b.vcxproj -> F:\\DriveMount\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2vvg1p\\Debug\\cmTC_9c30b.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_ff595.dir\\Debug\\cmTC_ff595.tlog\\unsuccessfulbuild".
-          Touching "cmTC_ff595.dir\\Debug\\cmTC_ff595.tlog\\cmTC_ff595.lastbuildstate".
-        Done Building Project "F:\\New folder\\build\\CMakeFiles\\CMakeScratch\\TryCompile-1lbv1c\\cmTC_ff595.vcxproj" (default targets).
+          Deleting file "cmTC_9c30b.dir\\Debug\\cmTC_9c30b.tlog\\unsuccessfulbuild".
+          Touching "cmTC_9c30b.dir\\Debug\\cmTC_9c30b.tlog\\cmTC_9c30b.lastbuildstate".
+        Done Building Project "F:\\DriveMount\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2vvg1p\\cmTC_9c30b.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.38
+        Time Elapsed 00:00:00.42
         
       exitCode: 0
   -

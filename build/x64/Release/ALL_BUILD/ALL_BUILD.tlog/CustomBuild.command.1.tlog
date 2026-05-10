@@ -1,6 +1,6 @@
-^F:\NEW FOLDER\CMAKELISTS.TXT
+^F:\DRIVEMOUNT\CMAKELISTS.TXT
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SF:/New folder" "-BF:/New folder/build" --check-stamp-file "F:/New folder/build/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/DriveMount -BF:/DriveMount/build --check-stamp-file F:/DriveMount/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

@@ -18,12 +18,14 @@ set(WINFSP_DIR "C:/Program Files (x86)/WinFsp")
 
 target_include_directories(DriveMount PRIVATE
     "${WINFSP_DIR}/inc"
+    "src"
 )
 
 target_link_libraries(DriveMount PRIVATE
     "${WINFSP_DIR}/lib/winfsp-x64.lib"
     advapi32
-    delayimp
+    winhttp
+        delayimp
 )
 
 target_compile_definitions(DriveMount PRIVATE UNICODE _UNICODE NOMINMAX)
@@ -31,3 +33,4 @@ target_compile_definitions(DriveMount PRIVATE UNICODE _UNICODE NOMINMAX)
 target_link_options(DriveMount PRIVATE
     "/DELAYLOAD:winfsp-x64.dll"
 )
+

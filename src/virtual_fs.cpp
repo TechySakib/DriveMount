@@ -289,6 +289,13 @@ NTSTATUS VirtualFs::Open(
     if (!GetRealFileInfo(realPath, FileInfo, &isDirectory))
         return STATUS_OBJECT_NAME_NOT_FOUND;
 
+    if (!isDirectory && (FileInfo->FileAttributes & FILE_ATTRIBUTE_OFFLINE)) {
+        std::wstring remoteName = virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        self->cacheManager_->DownloadFileSync(remoteName, realPath);
+        GetRealFileInfo(realPath, FileInfo, &isDirectory);
+    }
+
     const bool wantsDirectory = (CreateOptions & FILE_DIRECTORY_FILE) != 0;
 
     if (wantsDirectory && !isDirectory)
@@ -796,6 +803,7 @@ VOID VirtualFs::Cleanup(
         if (!remoteName.empty() && self->cacheManager_) self->cacheManager_->QueueDelete(remoteName);
     }
 }
+
 
 
 

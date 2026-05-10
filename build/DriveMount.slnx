@@ -7,7 +7,7 @@
 		<BuildType Name="RelWithDebInfo"/>
 		<Platform Name="x64"/>
 	</Configurations>
-	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="db6f0f7f-a280-34b5-be6d-6b89f5e37757" DefaultStartup="true">
+	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b80f5414-f274-3bde-b38f-43587f10a829" DefaultStartup="true">
 		<BuildDependency Project="DriveMount.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<Build Solution="Debug|*" Project="false"/>
@@ -15,8 +15,8 @@
 		<Build Solution="MinSizeRel|*" Project="false"/>
 		<Build Solution="RelWithDebInfo|*" Project="false"/>
 	</Project>
-	<Project Path="DriveMount.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="857a67c1-3c0f-3464-a5c1-b2bee833d568">
+	<Project Path="DriveMount.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="89480350-6a3b-328f-98ef-0cf73567175e">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
-	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="01db8e05-c767-3f1e-ae79-fd60382904ea"/>
+	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="44f88a94-cb00-3ca0-bf08-7d5d3565b434"/>
 </Solution>

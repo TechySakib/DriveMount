@@ -199,7 +199,7 @@ std::vector<RemoteFile> GoogleDriveClient::ListFiles() {
         return files;
     }
 
-    std::string resp = SendHttpRequest(L"GET", L"/drive/v3/files?fields=files(id,name,mimeType,size)&q='root'+in+parents+and+trashed=false");
+    std::string resp = SendHttpRequest(L"GET", L"/drive/v3/files?fields=files(id,name,mimeType,size,parents)&q=trashed=false");
     try {
         auto j = json::parse(resp);
         if(j.contains("files")) {
@@ -209,6 +209,11 @@ std::vector<RemoteFile> GoogleDriveClient::ListFiles() {
                 rf.name = s2ws(f["name"].get<std::string>());
                 rf.isDirectory = (f["mimeType"] == "application/vnd.google-apps.folder");
                 rf.size = f.contains("size") ? std::stoull(f["size"].get<std::string>()) : 0;
+                if(f.contains("parents")) {
+                    for(auto& p : f["parents"]) {
+                        rf.parents.push_back(s2ws(p.get<std::string>()));
+                    }
+                }
                 files.push_back(rf);
             }
         }
@@ -217,12 +222,54 @@ std::vector<RemoteFile> GoogleDriveClient::ListFiles() {
 }
 
 std::wstring GoogleDriveClient::GetFileIdByName(const std::wstring& name) {
+    return GetFileIdByPath(name);
+}
+
+std::wstring GoogleDriveClient::GetFileIdByPath(const std::wstring& path) {
     if(accessToken_.empty()) return L"";
-    std::string resp = SendHttpRequest(L"GET", L"/drive/v3/files?q=name='" + name + L"'");
+    if(path.empty() || path == L"\\" || path == L"/") return L"root";
+
+    std::vector<std::wstring> parts;
+    std::wstringstream wss(path);
+    std::wstring part;
+    while (std::getline(wss, part, L'\\')) {
+        if (!part.empty()) parts.push_back(part);
+    }
+
+    std::wstring currentParentId = L"root";
+    for (const auto& p : parts) {
+        std::string q = "name='" + ws2s(p) + "' and '" + ws2s(currentParentId) + "' in parents and trashed=false";
+        for(char& c : q) if(c == ' ') c = '+';
+
+        std::string resp = SendHttpRequest(L"GET", L"/drive/v3/files?q=" + s2ws(q));
+        std::wstring foundId = L"";
+        try {
+            auto j = json::parse(resp);
+            if(j.contains("files") && j["files"].size() > 0) {
+                foundId = s2ws(j["files"][0]["id"].get<std::string>());
+            }
+        } catch(...) {}
+
+        if (foundId.empty()) return L"";
+        currentParentId = foundId;
+    }
+    return currentParentId;
+}
+
+std::wstring GoogleDriveClient::CreateFolder(const std::wstring& folderName, const std::wstring& parentId) {
+    if(accessToken_.empty()) return L"mock_folder_id";
+
+    std::string metadata = "{\"name\": \"" + ws2s(folderName) + "\", \"mimeType\": \"application/vnd.google-apps.folder\"";
+    if (!parentId.empty() && parentId != L"root") {
+        metadata += ", \"parents\": [\"" + ws2s(parentId) + "\"]";
+    }
+    metadata += "}";
+
+    std::string resp = SendHttpRequest(L"POST", L"/drive/v3/files", metadata, L"application/json");
     try {
         auto j = json::parse(resp);
-        if(j.contains("files") && j["files"].size() > 0) {
-            return s2ws(j["files"][0]["id"].get<std::string>());
+        if(j.contains("id")) {
+            return s2ws(j["id"].get<std::string>());
         }
     } catch(...) {}
     return L"";
@@ -236,10 +283,19 @@ bool GoogleDriveClient::UploadFile(const std::wstring& localPath, const std::wst
     if(!file) return false;
     std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-    std::wstring fileId = GetFileIdByName(remoteName);
+    std::wstring fileId = GetFileIdByPath(remoteName);
     if(fileId.empty()) {
-        // Create new
-        std::string metadata = "{\"name\": \"" + ws2s(remoteName) + "\"}";
+        std::wstring fileName = remoteName;
+        std::wstring parentPath = L"";
+        size_t lastSlash = remoteName.find_last_of(L"\\/");
+        if (lastSlash != std::wstring::npos) {
+            fileName = remoteName.substr(lastSlash + 1);
+            parentPath = remoteName.substr(0, lastSlash);
+        }
+        std::wstring parentId = GetFileIdByPath(parentPath);
+        if (parentId.empty()) parentId = L"root";
+
+        std::string metadata = "{\"name\": \"" + ws2s(fileName) + "\", \"parents\": [\"" + ws2s(parentId) + "\"]}";
         
         std::string boundary = "foo_bar_baz";
         std::string body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + metadata + "\r\n";
@@ -257,7 +313,7 @@ bool GoogleDriveClient::UploadFile(const std::wstring& localPath, const std::wst
 
 bool GoogleDriveClient::RemoveFile(const std::wstring& remoteName) {
     if(accessToken_.empty()) return true;
-    std::wstring fileId = GetFileIdByName(remoteName);
+    std::wstring fileId = GetFileIdByPath(remoteName);
     if(fileId.empty()) return true;
     
     SendHttpRequest(L"DELETE", L"/drive/v3/files/" + fileId);
@@ -266,10 +322,16 @@ bool GoogleDriveClient::RemoveFile(const std::wstring& remoteName) {
 
 bool GoogleDriveClient::RenameFile(const std::wstring& oldName, const std::wstring& newName) {
     if(accessToken_.empty()) return true;
-    std::wstring fileId = GetFileIdByName(oldName);
+    std::wstring fileId = GetFileIdByPath(oldName);
     if(fileId.empty()) return false;
 
-    std::string body = "{\"name\": \"" + ws2s(newName) + "\"}";
+    std::wstring newFileName = newName;
+    size_t lastSlash = newName.find_last_of(L"\\/");
+    if (lastSlash != std::wstring::npos) {
+        newFileName = newName.substr(lastSlash + 1);
+    }
+
+    std::string body = "{\"name\": \"" + ws2s(newFileName) + "\"}";
     SendHttpRequest(L"PATCH", L"/drive/v3/files/" + fileId, body, L"application/json");
     return true;
 }

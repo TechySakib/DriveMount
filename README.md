@@ -15,9 +15,10 @@ The system operates using a three-tier architecture:
 ## ? Features
 
 - **Native Windows Integration**: Fully compliant with Windows Explorer, CMD, and PowerShell. 
+- **Subdirectory & Folder Support**: Navigate, create, delete, and rename nested folder hierarchies natively.
 - **Read & Write Support**: Modify text files, save images, and seamlessly interact with cloud files locally.
 - **Asynchronous Sync**: File uploads, deletions, and renames are processed in the background by the CacheManager to ensure the OS UI never freezes.
-- **Root Directory Security**: Configured with a rigid SDDL (Security Descriptor) granting Built-in Administrators full access to ensure smooth native I/O.
+- **On-Demand Fetching**: Remote files are created as sparse "offline" files and content is only downloaded when you first open the file.
 
 ## ??? Prerequisites
 
@@ -62,8 +63,9 @@ Once built, you can start the virtual drive by specifying a mount point letter:
 - [x] **Phase 3**: Background Cache Manager thread and Mock Cloud sync.
 - [x] **Phase 4**: Replaced Mock GoogleDriveClient with real WinHTTP Google Drive REST API integration.
 - [x] **Phase 5**: Real On-Demand File Fetching (creates sparse offline files and downloads content upon file open).
-- [ ] **Phase 6**: Subdirectory & Folder Support (navigate, create, and delete nested folders).
-- [ ] **Phase 7**: File Streaming (partial file reads/writes instead of full-file caching).
-- [ ] **Phase 8**: Cloud-to-Local Polling (sync changes made from Google Drive website).
-- [ ] **Phase 9**: Cache Eviction (automatically delete old cached files to free up disk space).
+- [x] **Phase 6**: Subdirectory & Folder Support (navigate, create, and delete nested folders).
+- [ ] **Phase 7**: Local Metadata Database (SQLite integration to cache file metadata and avoid frequent API calls).
+- [ ] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
+- [ ] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
+- [ ] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).
 

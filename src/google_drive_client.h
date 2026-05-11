@@ -12,6 +12,7 @@ struct RemoteFile {
     std::wstring name;
     bool isDirectory;
     uint64_t size;
+    std::vector<std::wstring> parents;
 };
 
 class GoogleDriveClient {
@@ -27,6 +28,8 @@ public:
     bool RemoveFile(const std::wstring& remoteName);
     bool RenameFile(const std::wstring& oldName, const std::wstring& newName);
     std::wstring GetFileIdByName(const std::wstring& name);
+    std::wstring GetFileIdByPath(const std::wstring& path);
+    std::wstring CreateFolder(const std::wstring& folderName, const std::wstring& parentId);
 
 private:
     std::mutex mutex_;

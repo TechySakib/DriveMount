@@ -11,7 +11,8 @@
 enum class CacheAction {
     Upload,
     Delete,
-    Rename
+    Rename,
+    CreateDir
 };
 
 struct CacheTask {
@@ -32,6 +33,7 @@ public:
     void QueueUpload(const std::wstring& localPath, const std::wstring& remoteName);
     void QueueDelete(const std::wstring& remoteName);
     void QueueRename(const std::wstring& oldName, const std::wstring& newName);
+    void QueueCreateDir(const std::wstring& remoteName);
     void DownloadFileSync(const std::wstring& remoteName, const std::wstring& localPath);
 
 private:

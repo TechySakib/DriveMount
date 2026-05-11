@@ -1,0 +1,10 @@
+^F:\DRIVEMOUNT\BUILD\CMAKEFILES\19CF7ADD9E7AAD253884A5ACEB1897DA\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/DriveMount -BF:/DriveMount/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file F:/DriveMount/build/DriveMount.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

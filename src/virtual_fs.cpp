@@ -342,6 +342,10 @@ NTSTATUS VirtualFs::Create(
             if (err == ERROR_PATH_NOT_FOUND) return STATUS_OBJECT_PATH_NOT_FOUND;
             return STATUS_ACCESS_DENIED;
         }
+
+        std::wstring remoteName = virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        if (!remoteName.empty() && self->cacheManager_) self->cacheManager_->QueueCreateDir(remoteName);
     }
     else
     {

@@ -50,27 +50,69 @@ void CacheManager::QueueRename(const std::wstring& oldName, const std::wstring& 
     queueCv_.notify_one();
 }
 
+void CacheManager::QueueCreateDir(const std::wstring& remoteName) {
+    std::lock_guard<std::mutex> lock(queueMutex_);
+    taskQueue_.push({CacheAction::CreateDir, L"", remoteName, L""});
+    queueCv_.notify_one();
+}
+
 void CacheManager::InitialSync() {
     std::wcout << L"[CacheManager] Performing initial sync..." << std::endl;
     auto remoteFiles = driveClient_.ListFiles();
     
+    std::map<std::wstring, RemoteFile> fileMap;
+    for (const auto& f : remoteFiles) fileMap[f.id] = f;
+
+    // Helper to build path from parents
+    auto getPath = [&](const std::wstring& id, auto& self_ref) -> std::wstring {
+        auto it = fileMap.find(id);
+        if (it == fileMap.end()) return L"";
+        if (it->second.parents.empty() || it->second.parents[0] == L"root") return it->second.name;
+        
+        std::wstring parentPath = self_ref(it->second.parents[0], self_ref);
+        return parentPath + L"\\" + it->second.name;
+    };
+
+    // Sort files so directories are created first (optional but safer with simple CreateDirectoryW)
+    // Actually, we can just iterate twice.
+    
+    // Phase 1: Directories
     for (const auto& file : remoteFiles) {
-        std::wstring fullPath = basePath_ + L"\\" + file.name;
-        if (GetFileAttributesW(fullPath.c_str()) == INVALID_FILE_ATTRIBUTES) {
-            std::wcout << L"[CacheManager] Creating offline placeholder for " << file.name << L"..." << std::endl;
+        if (file.isDirectory) {
+            std::wstring relPath = getPath(file.id, getPath);
+            std::wstring fullPath = basePath_ + L"\\" + relPath;
+            // Create nested directories
+            size_t pos = 0;
+            while ((pos = relPath.find(L'\\', pos)) != std::wstring::npos) {
+                std::wstring subPath = basePath_ + L"\\" + relPath.substr(0, pos);
+                CreateDirectoryW(subPath.c_str(), NULL);
+                pos++;
+            }
+            CreateDirectoryW(fullPath.c_str(), NULL);
+        }
+    }
+
+    // Phase 2: Files
+    for (const auto& file : remoteFiles) {
+        if (!file.isDirectory) {
+            std::wstring relPath = getPath(file.id, getPath);
+            std::wstring fullPath = basePath_ + L"\\" + relPath;
             
-            HANDLE hFile = CreateFileW(fullPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_OFFLINE, NULL);
-            if (hFile != INVALID_HANDLE_VALUE) {
-                // Make sparse and set size
-                DWORD dwTemp;
-                DeviceIoControl(hFile, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &dwTemp, NULL);
+            if (GetFileAttributesW(fullPath.c_str()) == INVALID_FILE_ATTRIBUTES) {
+                std::wcout << L"[CacheManager] Creating offline placeholder for " << relPath << L"..." << std::endl;
                 
-                LARGE_INTEGER liSize;
-                liSize.QuadPart = file.size;
-                SetFilePointerEx(hFile, liSize, NULL, FILE_BEGIN);
-                SetEndOfFile(hFile);
-                
-                CloseHandle(hFile);
+                HANDLE hFile = CreateFileW(fullPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_OFFLINE, NULL);
+                if (hFile != INVALID_HANDLE_VALUE) {
+                    DWORD dwTemp;
+                    DeviceIoControl(hFile, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &dwTemp, NULL);
+                    
+                    LARGE_INTEGER liSize;
+                    liSize.QuadPart = file.size;
+                    SetFilePointerEx(hFile, liSize, NULL, FILE_BEGIN);
+                    SetEndOfFile(hFile);
+                    
+                    CloseHandle(hFile);
+                }
             }
         }
     }
@@ -122,6 +164,20 @@ void CacheManager::SyncThreadFunc() {
                 break;
             case CacheAction::Rename:
                 driveClient_.RenameFile(task.remoteName, task.newRemoteName);
+                break;
+            case CacheAction::CreateDir:
+                {
+                    std::wstring dirName = task.remoteName;
+                    std::wstring parentPath = L"";
+                    size_t lastSlash = task.remoteName.find_last_of(L"\\/");
+                    if (lastSlash != std::wstring::npos) {
+                        dirName = task.remoteName.substr(lastSlash + 1);
+                        parentPath = task.remoteName.substr(0, lastSlash);
+                    }
+                    std::wstring parentId = driveClient_.GetFileIdByPath(parentPath);
+                    if (parentId.empty()) parentId = L"root";
+                    driveClient_.CreateFolder(dirName, parentId);
+                }
                 break;
         }
     }

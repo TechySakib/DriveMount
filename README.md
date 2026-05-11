@@ -64,8 +64,7 @@ Once built, you can start the virtual drive by specifying a mount point letter:
 - [x] **Phase 4**: Replaced Mock GoogleDriveClient with real WinHTTP Google Drive REST API integration.
 - [x] **Phase 5**: Real On-Demand File Fetching (creates sparse offline files and downloads content upon file open).
 - [x] **Phase 6**: Subdirectory & Folder Support (navigate, create, and delete nested folders).
-- [ ] **Phase 7**: Local Metadata Database (SQLite integration to cache file metadata and avoid frequent API calls).
+- [/] **Phase 7**: Local Metadata Database (SQLite integration added; implementation in progress).
 - [ ] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
 - [ ] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
 - [ ] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).
-

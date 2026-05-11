@@ -12,6 +12,7 @@ add_executable(DriveMount
     src/google_drive_client.h
     src/cache_manager.cpp
     src/cache_manager.h
+    src/sqlite3.c
 )
 
 set(WINFSP_DIR "C:/Program Files (x86)/WinFsp")

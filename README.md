@@ -1,72 +1,98 @@
-# DriveMount
+# DriveMount ??
 
-**DriveMount** is a C++ Windows Virtual Filesystem application built on top of [WinFsp](https://winfsp.dev/). It allows you to mount a remote cloud drive (like Google Drive) as a native local disk volume (e.g., M:\) in Windows Explorer. 
+**DriveMount** is a high-performance Windows virtual filesystem (VFS) that mounts your **Google Drive** directly as a local disk drive (e.g., `M:`). Unlike the official client, DriveMount is designed for efficiency, using on-demand streaming, sparse file technology, and real-time polling to provide a seamless cloud-to-local experience.
 
-Users can seamlessly browse, open, edit, create, and delete files inside this virtual drive just as they would with a physical USB stick or hard drive. 
+---
 
-## ??? Architecture
-
-The system operates using a three-tier architecture:
-
-1. **Virtual Filesystem Layer (VirtualFs)**: A high-performance WinFsp driver wrapper that translates native Windows I/O operations (like CreateFile, ReadFile, WriteFile, MoveFile) into backend cache operations.
-2. **Cache Manager (CacheManager)**: An asynchronous, multi-threaded background service. It utilizes a concurrent task queue to intercept local filesystem events and asynchronously propagate them to the cloud without blocking Windows Explorer.
-3. **Cloud Client (GoogleDriveClient)**: The networking layer responsible for OAuth authentication and REST API communication with Google Drive. *(Implemented using WinHTTP and nlohmann/json for direct communication with the Google Drive v3 REST API).*
-
-## ? Features
+## ?? Key Features
 
 - **Native Windows Integration**: Fully compliant with Windows Explorer, CMD, and PowerShell. 
 - **Subdirectory & Folder Support**: Navigate, create, delete, and rename nested folder hierarchies natively.
-- **Read & Write Support**: Modify text files, save images, and seamlessly interact with cloud files locally.
-- **Asynchronous Sync**: File uploads, deletions, and renames are processed in the background by the CacheManager.
-- **On-Demand File Streaming**: Large files are created as sparse "offline" files. Data chunks are fetched from the cloud in real-time as you read, enabling near-instant access to large files.
-- **Local Metadata DB**: Uses SQLite to cache remote file IDs and sync states, eliminating redundant API calls.
-- **Real-Time Polling**: Detects deletions and updates made on the Google Drive website and reflects them locally within seconds.
+- **On-Demand File Streaming**: Access large files instantly. Data chunks are fetched from the cloud in real-time as you read them, using the HTTP `Range` header.
+- **Local Metadata DB**: Uses **SQLite** to cache file structures and sync states, enabling near-instant directory browsing without hitting API rate limits.
+- **Real-Time Polling**: Detects deletions, updates, and renames made via the Google Drive web interface and reflects them locally within seconds.
+- **Automatic Cache Eviction**: Intelligent **LRU (Least Recently Used)** cache management ensures your local storage usage stays within a configurable limit (default 1GB).
+- **Sparse File Technology**: Uses Windows Sparse Files to allocate disk space only for the data actually downloaded.
 
-## ??? Prerequisites
+---
 
-To build and run this project, you need:
+## ?? Technologies Used
 
-- **Windows 10 / 11**
-- [**WinFsp**](https://winfsp.dev/) (Windows File System Proxy) installed on your machine.
-- **CMake** (v3.21 or higher)
-- **Visual Studio Build Tools 2026** (C++20 support required)
+- **C++20**: The core logic is built with modern C++ for high performance.
+- **WinFsp**: The Windows File System Proxy used to create the virtual drive.
+- **Google Drive REST API (v3)**: Direct integration with Google's cloud storage.
+- **SQLite3**: Local persistent metadata storage.
+- **WinHTTP**: Efficient, native Windows networking for API communication and streaming.
+- **nlohmann/json**: Modern JSON parsing for API responses.
 
-## ?? Build Instructions
+---
 
-1. Clone the repository:
-   `cmd
-   git clone https://github.com/TechySakib/DriveMount.git
-   cd DriveMount
-   `
+## ?? Project Structure
 
-2. Build the project using CMake:
-   `cmd
-   cmake --build build --config Release
-   `
+```text
+DriveMount/
+??? src/
+?   ??? main.cpp                # Entry point & Mount logic
+?   ??? virtual_fs.cpp/h        # WinFsp callback implementation
+?   ??? cache_manager.cpp/h      # Background sync, polling & eviction engine
+?   ??? google_drive_client.cpp/h # Google Drive REST API wrapper
+?   ??? metadata_db.cpp/h       # SQLite metadata management
+?   ??? sqlite3.c/h             # Embedded SQLite source
+??? CMakeLists.txt              # Build configuration
+??? README.md                   # You are here!
+```
 
-## ?? Usage
+---
 
-Once built, you can start the virtual drive by specifying a mount point letter:
+## ?? How to Run the Project
 
-`cmd
-.\build\Release\DriveMount.exe M:
-`
+### 1. Prerequisites
+- **WinFsp**: Download and install from [winfsp.dev](https://winfsp.dev/).
+- **Visual Studio 2022**: With C++ development workloads.
+- **CMake**: Version 3.21 or higher.
 
-- A console window will remain open detailing background synchronization logs.
-- Open **Windows Explorer** and navigate to M:\.
-- You will see the mock file welcome_to_drive.txt. You can edit this file, create new files, or delete them.
-- Look at the console window to observe the asynchronous sync events in real-time!
-- To unmount the drive, simply focus the console window and press Enter.
+### 2. Google Drive API Setup
+- Go to the [Google Cloud Console](https://console.cloud.google.com/).
+- Create a new project and enable the **Google Drive API**.
+- Create **OAuth 2.0 Credentials** (Desktop App).
+- Set the following environment variables on your Windows machine:
+  ```powershell
+  $env:DRIVEMOUNT_CLIENT_ID = "your_client_id"
+  $env:DRIVEMOUNT_CLIENT_SECRET = "your_client_secret"
+  ```
 
-## ??? Roadmap
+### 3. Build & Run
+```powershell
+# Create build directory
+mkdir build
+cd build
 
-- [x] **Phase 1**: WinFsp Virtual Disk integration and directory enumeration.
-- [x] **Phase 2**: Full local Read/Write/Rename/Delete file support.
-- [x] **Phase 3**: Background Cache Manager thread and Mock Cloud sync.
-- [x] **Phase 4**: Replaced Mock GoogleDriveClient with real WinHTTP Google Drive REST API integration.
-- [x] **Phase 5**: Real On-Demand File Fetching (creates sparse offline files and downloads content upon file open).
-- [x] **Phase 6**: Subdirectory & Folder Support (navigate, create, and delete nested folders).
-- [x] **Phase 7**: Local Metadata Database (SQLite integration completed).
-- [x] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
-- [x] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
-- [x] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).
+# Configure and Build
+cmake ..
+cmake --build . --config Release
+
+# Run (Mount to M: drive)
+.\Release\DriveMount.exe M:
+```
+
+---
+
+## ?? Roadmap & Future Plans
+
+- [x] **Phase 1-6**: Core Filesystem & Basic API Sync.
+- [x] **Phase 7**: SQLite Metadata Persistence.
+- [x] **Phase 8**: Partial File Streaming (Range Requests).
+- [x] **Phase 9**: Real-time Cloud Polling.
+- [x] **Phase 10**: Automatic LRU Cache Eviction.
+- [ ] **Phase 11**: Multi-Threaded Chunk Downloading.
+- [ ] **Phase 12**: Windows Search Indexer Integration.
+- [ ] **Phase 13**: Selective Sync (Mark folders for "Always Keep Offline").
+- [ ] **Phase 14**: System Tray UI for status monitoring.
+
+---
+
+## ?? Contributing
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
+## ?? License
+Distributed under the MIT License.

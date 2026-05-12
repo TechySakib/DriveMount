@@ -37,6 +37,8 @@ public:
     void QueueCreateDir(const std::wstring& remoteName);
     void DownloadFileSync(const std::wstring& remoteName, const std::wstring& localPath);
     void DownloadFileChunk(const std::wstring& remoteName, const std::wstring& localPath, uint64_t offset, uint32_t length);
+    void UpdateLastAccess(const std::wstring& remoteName);
+    void RunEviction();
 
 private:
     void SyncThreadFunc();
@@ -56,4 +58,6 @@ private:
     std::mutex queueMutex_;
     std::condition_variable queueCv_;
     std::queue<CacheTask> taskQueue_;
+
+    uint64_t maxCacheSize_ = 1024ULL * 1024ULL * 1024ULL; // Default 1GB
 };

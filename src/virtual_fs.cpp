@@ -289,6 +289,12 @@ NTSTATUS VirtualFs::Open(
     if (!GetRealFileInfo(realPath, FileInfo, &isDirectory))
         return STATUS_OBJECT_NAME_NOT_FOUND;
 
+    if (!isDirectory) {
+        std::wstring remoteName = virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        self->cacheManager_->UpdateLastAccess(remoteName);
+    }
+
     if (!isDirectory && (FileInfo->FileAttributes & FILE_ATTRIBUTE_OFFLINE)) {
         // Skip full download on Open; we will stream in Read
         // std::wstring remoteName = virtualPath;
@@ -436,6 +442,10 @@ NTSTATUS VirtualFs::Read(
         std::wstring remoteName = ctx->virtualPath;
         if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
         self->cacheManager_->DownloadFileChunk(remoteName, ctx->realPath, Offset, Length);
+    } else if (attrs != INVALID_FILE_ATTRIBUTES && !ctx->isDirectory) {
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        self->cacheManager_->UpdateLastAccess(remoteName);
     }
 
     HANDLE file = CreateFileW(

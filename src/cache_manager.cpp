@@ -162,6 +162,8 @@ void CacheManager::PollingThreadFunc() {
             ProcessChange(change);
         }
 
+        RunEviction();
+
         if (!nextToken.empty()) {
             token = ws2s_cm(nextToken);
             db_.SetSetting("sync_token", token);
@@ -251,6 +253,47 @@ void CacheManager::DownloadFileChunk(const std::wstring& remoteName, const std::
     if (!fileId.empty()) {
         std::wcout << L"[CacheManager] Streaming range: " << offset << L" - " << (offset + length - 1) << L" for " << remoteName << std::endl;
         driveClient_.DownloadFileRange(fileId, localPath, offset, length);
+        db_.UpdateLastAccess(fileId);
+    }
+}
+
+void CacheManager::UpdateLastAccess(const std::wstring& remoteName) {
+    std::wstring fileId = GetFileIdByPath(remoteName);
+    if (!fileId.empty()) {
+        db_.UpdateLastAccess(fileId);
+    }
+}
+
+void CacheManager::RunEviction() {
+    auto files = db_.GetFilesForEviction();
+    uint64_t currentCacheSize = 0;
+    for (const auto& f : files) currentCacheSize += f.size;
+
+    if (currentCacheSize <= maxCacheSize_) return;
+
+    std::wcout << L"[CacheManager] Cache size (" << (currentCacheSize / 1024 / 1024) << L"MB) exceeds limit (" << (maxCacheSize_ / 1024 / 1024) << L"MB). Evicting..." << std::endl;
+
+    for (auto& f : files) {
+        if (currentCacheSize <= maxCacheSize_) break;
+
+        std::wstring fullPath = basePath_ + L"\\" + f.localPath;
+        std::wcout << L"[CacheManager] Evicting local content for: " << f.localPath << std::endl;
+
+        // Reset to sparse offline placeholder
+        SetFileAttributesW(fullPath.c_str(), FILE_ATTRIBUTE_OFFLINE);
+        HANDLE hFile = CreateFileW(fullPath.c_str(), GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_OFFLINE, NULL);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            DWORD dwTemp;
+            DeviceIoControl(hFile, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &dwTemp, NULL);
+            LARGE_INTEGER liSize; liSize.QuadPart = f.size;
+            SetFilePointerEx(hFile, liSize, NULL, FILE_BEGIN);
+            SetEndOfFile(hFile);
+            CloseHandle(hFile);
+        }
+
+        f.status = 0; // Offline
+        db_.UpsertFile(f);
+        currentCacheSize -= f.size;
     }
 }
 

@@ -49,7 +49,8 @@ bool MetadataDb::InitSchema() {
         "is_directory INTEGER,"
         "size INTEGER,"
         "local_path TEXT,"
-        "status INTEGER"
+        "status INTEGER,"
+        "last_access INTEGER"
         ");"
         "CREATE TABLE IF NOT EXISTS settings ("
         "key TEXT PRIMARY KEY,"
@@ -80,6 +81,7 @@ bool MetadataDb::UpsertFile(const DbFile& file) {
     sqlite3_bind_int64(stmt, 5, file.size);
     sqlite3_bind_text(stmt, 6, ws2s(file.localPath).c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(stmt, 7, file.status);
+    sqlite3_bind_int64(stmt, 8, file.lastAccess);
 
     bool success = (sqlite3_step(stmt) == SQLITE_DONE);
     sqlite3_finalize(stmt);
@@ -102,6 +104,7 @@ std::optional<DbFile> MetadataDb::GetFileById(const std::wstring& id) {
         file.size = sqlite3_column_int64(stmt, 4);
         file.localPath = s2ws((const char*)sqlite3_column_text(stmt, 5));
         file.status = sqlite3_column_int(stmt, 6);
+        file.lastAccess = sqlite3_column_int64(stmt, 7);
         sqlite3_finalize(stmt);
         return file;
     }
@@ -126,6 +129,7 @@ std::optional<DbFile> MetadataDb::GetFileByPath(const std::wstring& path) {
         file.size = sqlite3_column_int64(stmt, 4);
         file.localPath = s2ws((const char*)sqlite3_column_text(stmt, 5));
         file.status = sqlite3_column_int(stmt, 6);
+        file.lastAccess = sqlite3_column_int64(stmt, 7);
         sqlite3_finalize(stmt);
         return file;
     }
@@ -151,6 +155,7 @@ std::vector<DbFile> MetadataDb::GetChildren(const std::wstring& parentId) {
         file.size = sqlite3_column_int64(stmt, 4);
         file.localPath = s2ws((const char*)sqlite3_column_text(stmt, 5));
         file.status = sqlite3_column_int(stmt, 6);
+        file.lastAccess = sqlite3_column_int64(stmt, 7);
         children.push_back(file);
     }
 
@@ -206,4 +211,38 @@ bool MetadataDb::RenameFile(const std::wstring& id, const std::wstring& newName,
     bool success = (sqlite3_step(stmt) == SQLITE_DONE);
     sqlite3_finalize(stmt);
     return success;
+}
+
+bool MetadataDb::UpdateLastAccess(const std::wstring& id) {
+    const char* sql = "UPDATE files SET last_access = ? WHERE id = ?;";
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(db_, sql, -1, &stmt, nullptr) != SQLITE_OK) return false;
+    sqlite3_bind_int64(stmt, 1, time(nullptr));
+    sqlite3_bind_text(stmt, 2, ws2s(id).c_str(), -1, SQLITE_TRANSIENT);
+    bool success = (sqlite3_step(stmt) == SQLITE_DONE);
+    sqlite3_finalize(stmt);
+    return success;
+}
+
+std::vector<DbFile> MetadataDb::GetFilesForEviction() {
+    std::vector<DbFile> files;
+    const char* sql = "SELECT id, parent_id, name, is_directory, size, local_path, status, last_access FROM files "
+                      "WHERE is_directory = 0 AND status = 1 ORDER BY last_access ASC;";
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(db_, sql, -1, &stmt, nullptr) != SQLITE_OK) return files;
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        DbFile file;
+        file.id = s2ws((const char*)sqlite3_column_text(stmt, 0));
+        file.parentId = s2ws((const char*)sqlite3_column_text(stmt, 1));
+        file.name = s2ws((const char*)sqlite3_column_text(stmt, 2));
+        file.isDirectory = sqlite3_column_int(stmt, 3) != 0;
+        file.size = sqlite3_column_int64(stmt, 4);
+        file.localPath = s2ws((const char*)sqlite3_column_text(stmt, 5));
+        file.status = sqlite3_column_int(stmt, 6);
+        file.lastAccess = sqlite3_column_int64(stmt, 7);
+        files.push_back(file);
+    }
+    sqlite3_finalize(stmt);
+    return files;
 }

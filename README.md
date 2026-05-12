@@ -69,4 +69,4 @@ Once built, you can start the virtual drive by specifying a mount point letter:
 - [x] **Phase 7**: Local Metadata Database (SQLite integration completed).
 - [x] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
 - [x] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
-- [ ] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).
+- [x] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).

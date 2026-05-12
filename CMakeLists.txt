@@ -12,6 +12,8 @@ add_executable(DriveMount
     src/google_drive_client.h
     src/cache_manager.cpp
     src/cache_manager.h
+    src/metadata_db.cpp
+    src/metadata_db.h
     src/sqlite3.c
 )
 

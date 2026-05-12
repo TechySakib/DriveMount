@@ -372,3 +372,107 @@ bool GoogleDriveClient::DownloadFile(const std::wstring& fileId, const std::wstr
     return bResults != 0;
 }
 
+bool GoogleDriveClient::DownloadFileRange(const std::wstring& fileId, const std::wstring& localDestPath, uint64_t offset, uint32_t length) {
+    if(accessToken_.empty()) return true;
+    std::wstring path = L"/drive/v3/files/" + fileId + L"?alt=media";
+    HINTERNET hRequest = WinHttpOpenRequest(hConnect_, L"GET", path.c_str(), NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
+    if(!hRequest) return false;
+
+    std::wstring rangeHeader = L"Range: bytes=" + std::to_wstring(offset) + L"-" + std::to_wstring(offset + length - 1) + L"\r\n";
+    std::wstring authHeader = L"Authorization: Bearer " + accessToken_ + L"\r\n";
+    std::wstring headers = authHeader + rangeHeader;
+
+    BOOL bResults = WinHttpSendRequest(hRequest, headers.c_str(), -1, WINHTTP_NO_REQUEST_DATA, 0, 0, 0);
+
+    if (bResults) {
+        bResults = WinHttpReceiveResponse(hRequest, NULL);
+    }
+    
+    if (bResults) {
+        DWORD dwStatusCode = 0;
+        DWORD dwSize = sizeof(dwStatusCode);
+        WinHttpQueryHeaders(hRequest, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_HEADER_NAME_BY_INDEX, &dwStatusCode, &dwSize, WINHTTP_NO_HEADER_INDEX);
+        
+        if (dwStatusCode != 206 && dwStatusCode != 200) {
+            std::wcerr << L"[GoogleDriveClient] Range request failed with status: " << dwStatusCode << std::endl;
+            WinHttpCloseHandle(hRequest);
+            return false;
+        }
+
+        HANDLE hFile = CreateFileW(localDestPath.c_str(), GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (hFile == INVALID_HANDLE_VALUE) {
+            WinHttpCloseHandle(hRequest);
+            return false;
+        }
+
+        LARGE_INTEGER liOffset;
+        liOffset.QuadPart = offset;
+        SetFilePointerEx(hFile, liOffset, NULL, FILE_BEGIN);
+
+        DWORD dwDataAvailable = 0;
+        DWORD dwDownloaded = 0;
+        do {
+            dwDataAvailable = 0;
+            WinHttpQueryDataAvailable(hRequest, &dwDataAvailable);
+            if(dwDataAvailable > 0) {
+                char* pszOutBuffer = new char[dwDataAvailable];
+                if (WinHttpReadData(hRequest, (LPVOID)pszOutBuffer, dwDataAvailable, &dwDownloaded)) {
+                    DWORD dwWritten = 0;
+                    WriteFile(hFile, pszOutBuffer, dwDownloaded, &dwWritten, NULL);
+                }
+                delete[] pszOutBuffer;
+            }
+        } while (dwDataAvailable > 0);
+        CloseHandle(hFile);
+    }
+    WinHttpCloseHandle(hRequest);
+    return bResults != 0;
+}
+
+std::wstring GoogleDriveClient::GetStartPageToken() {
+    if(accessToken_.empty()) return L"";
+    std::string resp = SendHttpRequest(L"GET", L"/drive/v3/changes/startPageToken");
+    try {
+        auto j = json::parse(resp);
+        if(j.contains("startPageToken")) return s2ws(j["startPageToken"].get<std::string>());
+    } catch(...) {}
+    return L"";
+}
+
+std::vector<GoogleDriveClient::Change> GoogleDriveClient::GetChanges(const std::wstring& pageToken, std::wstring& nextPageToken) {
+    std::vector<Change> changes;
+    if(accessToken_.empty()) return changes;
+
+    std::string resp = SendHttpRequest(L"GET", L"/drive/v3/changes?pageToken=" + pageToken + L"&fields=nextPageToken,newStartPageToken,changes(fileId,removed,file(id,name,mimeType,size,parents,trashed))");
+    try {
+        auto j = json::parse(resp);
+        if(j.contains("nextPageToken")) nextPageToken = s2ws(j["nextPageToken"].get<std::string>());
+        else if(j.contains("newStartPageToken")) nextPageToken = s2ws(j["newStartPageToken"].get<std::string>());
+
+        if(j.contains("changes")) {
+            for(auto& c : j["changes"]) {
+                Change change;
+                change.fileId = s2ws(c["fileId"].get<std::string>());
+                change.removed = c["removed"].get<bool>();
+                
+                if(!change.removed && c.contains("file")) {
+                    auto& f = c["file"];
+                    if (f.contains("trashed") && f["trashed"].get<bool>()) {
+                        change.removed = true;
+                    } else {
+                        change.file.id = s2ws(f["id"].get<std::string>());
+                        change.file.name = s2ws(f["name"].get<std::string>());
+                        change.file.isDirectory = (f["mimeType"] == "application/vnd.google-apps.folder");
+                        change.file.size = f.contains("size") ? std::stoull(f["size"].get<std::string>()) : 0;
+                        if(f.contains("parents")) {
+                            for(auto& p : f["parents"]) change.file.parents.push_back(s2ws(p.get<std::string>()));
+                        }
+                    }
+                }
+                changes.push_back(change);
+            }
+        }
+    } catch(...) {}
+    return changes;
+}
+

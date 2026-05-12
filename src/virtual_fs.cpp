@@ -290,10 +290,11 @@ NTSTATUS VirtualFs::Open(
         return STATUS_OBJECT_NAME_NOT_FOUND;
 
     if (!isDirectory && (FileInfo->FileAttributes & FILE_ATTRIBUTE_OFFLINE)) {
-        std::wstring remoteName = virtualPath;
-        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
-        self->cacheManager_->DownloadFileSync(remoteName, realPath);
-        GetRealFileInfo(realPath, FileInfo, &isDirectory);
+        // Skip full download on Open; we will stream in Read
+        // std::wstring remoteName = virtualPath;
+        // if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        // self->cacheManager_->DownloadFileSync(remoteName, realPath);
+        // GetRealFileInfo(realPath, FileInfo, &isDirectory);
     }
 
     const bool wantsDirectory = (CreateOptions & FILE_DIRECTORY_FILE) != 0;
@@ -428,6 +429,14 @@ NTSTATUS VirtualFs::Read(
 
     if (!ctx || ctx->isDirectory)
         return STATUS_INVALID_DEVICE_REQUEST;
+
+    auto* self = Self(FileSystem);
+    DWORD attrs = GetFileAttributesW(ctx->realPath.c_str());
+    if (attrs != INVALID_FILE_ATTRIBUTES && (attrs & FILE_ATTRIBUTE_OFFLINE)) {
+        std::wstring remoteName = ctx->virtualPath;
+        if (!remoteName.empty() && remoteName.front() == L'\\') remoteName.erase(0, 1);
+        self->cacheManager_->DownloadFileChunk(remoteName, ctx->realPath, Offset, Length);
+    }
 
     HANDLE file = CreateFileW(
         ctx->realPath.c_str(),

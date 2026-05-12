@@ -17,8 +17,10 @@ The system operates using a three-tier architecture:
 - **Native Windows Integration**: Fully compliant with Windows Explorer, CMD, and PowerShell. 
 - **Subdirectory & Folder Support**: Navigate, create, delete, and rename nested folder hierarchies natively.
 - **Read & Write Support**: Modify text files, save images, and seamlessly interact with cloud files locally.
-- **Asynchronous Sync**: File uploads, deletions, and renames are processed in the background by the CacheManager to ensure the OS UI never freezes.
-- **On-Demand Fetching**: Remote files are created as sparse "offline" files and content is only downloaded when you first open the file.
+- **Asynchronous Sync**: File uploads, deletions, and renames are processed in the background by the CacheManager.
+- **On-Demand File Streaming**: Large files are created as sparse "offline" files. Data chunks are fetched from the cloud in real-time as you read, enabling near-instant access to large files.
+- **Local Metadata DB**: Uses SQLite to cache remote file IDs and sync states, eliminating redundant API calls.
+- **Real-Time Polling**: Detects deletions and updates made on the Google Drive website and reflects them locally within seconds.
 
 ## ??? Prerequisites
 
@@ -64,7 +66,7 @@ Once built, you can start the virtual drive by specifying a mount point letter:
 - [x] **Phase 4**: Replaced Mock GoogleDriveClient with real WinHTTP Google Drive REST API integration.
 - [x] **Phase 5**: Real On-Demand File Fetching (creates sparse offline files and downloads content upon file open).
 - [x] **Phase 6**: Subdirectory & Folder Support (navigate, create, and delete nested folders).
-- [/] **Phase 7**: Local Metadata Database (SQLite integration added; implementation in progress).
-- [ ] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
-- [ ] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
+- [x] **Phase 7**: Local Metadata Database (SQLite integration completed).
+- [x] **Phase 8**: File Streaming (partial file reads/writes instead of full-file caching).
+- [x] **Phase 9**: Cloud-to-Local Polling (sync changes made from Google Drive website).
 - [ ] **Phase 10**: Cache Eviction (automatically delete old cached files to free up disk space).

@@ -25,11 +25,20 @@ public:
     std::vector<RemoteFile> ListFiles();
     bool UploadFile(const std::wstring& localPath, const std::wstring& remoteName);
     bool DownloadFile(const std::wstring& fileId, const std::wstring& localDestPath);
+    bool DownloadFileRange(const std::wstring& fileId, const std::wstring& localDestPath, uint64_t offset, uint32_t length);
     bool RemoveFile(const std::wstring& remoteName);
     bool RenameFile(const std::wstring& oldName, const std::wstring& newName);
     std::wstring GetFileIdByName(const std::wstring& name);
     std::wstring GetFileIdByPath(const std::wstring& path);
     std::wstring CreateFolder(const std::wstring& folderName, const std::wstring& parentId);
+
+    struct Change {
+        std::wstring fileId;
+        bool removed;
+        RemoteFile file; // Only valid if not removed
+    };
+    std::wstring GetStartPageToken();
+    std::vector<Change> GetChanges(const std::wstring& pageToken, std::wstring& nextPageToken);
 
 private:
     std::mutex mutex_;
